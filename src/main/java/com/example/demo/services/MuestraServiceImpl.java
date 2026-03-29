@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.exceptions.NotFoundException;
 import com.example.demo.models.Muestra;
 import com.example.demo.repositories.MuestraRepository;
 
@@ -29,7 +30,7 @@ public class MuestraServiceImpl implements MuestraService{
 
 	@Override
 	public Muestra buscarPorId(Long id) {
-		 return muestraRepository.findById(id).orElse(null);
+		 return muestraRepository.findById(id).orElseThrow(() -> new NotFoundException("Muestra no encontrada"));
 	}
 
 	private Object obtener(Long id) {

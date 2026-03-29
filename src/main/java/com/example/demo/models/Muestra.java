@@ -2,6 +2,8 @@ package com.example.demo.models;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -14,6 +16,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "muestras")
+
 public class Muestra {
 
     @Id
@@ -25,6 +28,7 @@ public class Muestra {
     private String lote;
 
     @OneToMany(mappedBy = "muestra", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Resultado> resultados;
 
     public Muestra() {
