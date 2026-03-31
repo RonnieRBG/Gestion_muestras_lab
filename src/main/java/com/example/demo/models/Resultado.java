@@ -33,7 +33,8 @@ public class Resultado {
 
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
-
+    
+    
     private String estado;          // En proceso, Finalizado, Pendiente
 
     @ManyToOne

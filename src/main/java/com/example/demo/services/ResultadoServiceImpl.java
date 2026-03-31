@@ -10,17 +10,34 @@ import com.example.demo.exceptions.NotFoundException;
 import com.example.demo.exceptions.ValidationException;
 import com.example.demo.models.Resultado;
 import com.example.demo.models.TipoResultado;
+import com.example.demo.repositories.MuestraRepository;
 import com.example.demo.repositories.ResultadoRepository;
+
+import jakarta.transaction.Transactional;
+//esta primera version no contiene el actrualizar
 
 @Service
 public class ResultadoServiceImpl implements ResultadoService {
 	
 	@Autowired
 		ResultadoRepository resultadoRepository;
+	@Autowired
+		MuestraRepository muestraRepository;
 	
-
+	
 	@Override
+	@Transactional
 	public Resultado guardarResultado(Resultado resultado) {
+		
+		// Hacemos primero verificaciones para la muestra, que exista y que no sea nula.
+		// recordar que para validar 
+		
+		if (resultado.getMuestra() == null || resultado.getMuestra().getId() == null) {
+	        throw new ValidationException("Debe enviar una muestra con un ID válido para guardar el resultado");
+	    }
+		
+		Long verificarMuestra = resultado.getMuestra().getId();
+		muestraRepository.findById(verificarMuestra).orElseThrow(() -> new NotFoundException("La muestra con ID " + verificarMuestra + " no existe en la base de datos"));		
 		 
 		//Se obtienen primero los resultados y se limpian
 		String estado = resultado.getEstado();
